@@ -1,7 +1,5 @@
 package base.model;
 
-import java.util.Arrays;
-
 public class Board {
 	
 	private final int ROWS = 8;
@@ -50,13 +48,28 @@ public class Board {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (int row = 0; row < ROWS; row ++) {
+			sb.append(String.valueOf(8 - row)).append(' ');
 			for (int col = 0; col < COLS; col ++) {
 				sb.append(board[row][col]).append(' ');
 			}
 			sb.setLength(sb.length() - 1); // Remove last white space.
 			sb.append('\n');
 		}
+		sb.append(' ').append(' ');
+		for (int i = 97; i < 105; i ++) {
+			sb.append((char)i).append(' ');
+		}
+		sb.setLength(sb.length() - 1);
 		return sb.toString();
+	}
+	
+	public void move(String move) {
+		int rowFrom = 8 - Integer.parseInt(move.charAt(1) + "");
+		int colFrom = Math.abs(97 - (int)move.charAt(0));
+		int rowTo = 8 - Integer.parseInt(move.charAt(4) + "");
+		int colTo = Math.abs(97 - (int)move.charAt(3));
+		board[rowTo][colTo] = board[rowFrom][colFrom];
+		board[rowFrom][colFrom] = BLACK_SQUARE;
 	}
 
 	public static void main(String[] args) {
@@ -64,6 +77,8 @@ public class Board {
 		Board b = new Board();
 		b.initBoard();
 		b.initCheckers();
+		System.out.println(b);
+		b.move("c3-d4");
 		System.out.println(b);
 
 	}
