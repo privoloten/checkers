@@ -13,7 +13,7 @@ public class BlackChecker extends Piece {
 
 	@Override
 	public boolean move(int row, int col, Board board) {
-		// TODO Auto-generated method stub
+		// git test
 		return false;
 	}
 
