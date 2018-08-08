@@ -3,47 +3,42 @@ package base.model1;
 public abstract class Piece {
 
 	protected int row;
-	
+
 	protected int col;
-	
+
 	protected Piece(int row, int col) {
 		this.row = row;
 		this.col = col;
 	}
-	
-	protected Piece(String code) {
-		this.row = getRow(code);
-		this.col = getCol(code);
-	}
-	
-	protected final int getRow(String code) {
-		return 8 - Integer.parseInt(code.charAt(1) + "");
-	}
-	
-	protected final int getCol(String code) {
-		return Math.abs(97 - (int)code.charAt(0));
-	}
-	
-	protected abstract char getMark();
-	
+
+	protected abstract char getMark();	
+
 	protected boolean move(String code, Board board) {
-		return move(getRow(code), getCol(code), board);
+		return move(board.getRow(code), board.getCol(code), board);
 	}
-	
+
 	protected boolean move(int row, int col, Board board) {
-		int rowDiff = row - this.row;
-		int colDiff = col = this.col;
+		int rowDiff = Math.abs(row - this.row);
+		int colDiff = Math.abs(col - this.col);
+		if (rowDiff > 2) { // Only for queens allowed.
+			System.out.println("Piece.move(): queen's move");
+			return false;
+		} 
 		return board.isSquareEmpty(row, col) && rowDiff == colDiff;
 	}
-	
-	protected void remove(Board board) {
-		board.remove(row, col);
+
+	protected void move(String code, Board board, int ...opponentCoords) {
+		move(board.getRow(code), board.getCol(code), board, opponentCoords);
 	}
-	
-	protected void completeMove(int row, int col, Board board) {
+
+	protected void move(int row, int col, Board board, int ...opponentCoords) {
+		if (opponentCoords != null) { // If capture.
+			board.removePiece(opponentCoords[0], opponentCoords[1]);
+		}
+		board.removePiece(this.row, this.col);
 		this.row = row;
 		this.col = col;
 		board.setPiece(this);
 	}
-	
+
 }

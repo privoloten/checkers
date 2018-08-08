@@ -2,10 +2,6 @@ package base.model1;
 
 public class WhitePiece extends Piece {
 
-	protected WhitePiece(String code) {
-		super(code);
-	}
-
 	protected WhitePiece(int row, int col) {
 		super(row, col);
 	}	
@@ -19,38 +15,64 @@ public class WhitePiece extends Piece {
 	protected boolean move(int row, int col, Board board) {
 
 		if (!super.move(row, col, board)) {
+			System.out.println(1);
 			return false;
 		}
 
-		// ? different methods in Piece?
 		int rowDiff = row - this.row;
 
-		if (rowDiff > 2) { // Only for queens allowed.
-			return false;
-		} 
-
-		if (rowDiff == 2) { // If capture.
+		if (Math.abs(rowDiff) == 2) { // If capture.
 
 			int rowBlack = (row + this.row) / 2;
 			int colBlack = (col + this.col) / 2;
 
-			if (!board.isBlackPiece(rowBlack, colBlack)) {				
+			if (!board.isBlackPiece(rowBlack, colBlack)) {		
+				System.out.println("WhitePiece.move(): white piece");		
 				return false;				
 			} 
 
-			board.remove(rowBlack, colBlack);
-			completeMove(row, col, board);
+			move(row, col, board, rowBlack, colBlack); // Move with capture.
 
 		} else { // If just a move.
-			
-			if (rowDiff < 0) {
+
+			if (rowDiff > 0) {
+				System.out.println("WhitePiece.move(): moving back");
 				return false; // Don't allow moving back.
 			}
-			
-			completeMove(row, col, board);
+
+			super.move(row, col, board, null); // Just a move, without capture.
 		}
 
 		return true;
+	}
+
+	public static void main(String...args) {
+
+		Board b = new Board();
+		b.initBoard();
+		System.out.println(b);
+		if (b.move("a3-b4")) {
+			System.out.println(b);			
+		}
+		if (b.move("b6-a5")) {
+			System.out.println(b);		
+		}
+		if (b.move("b4-a3")) {
+			System.out.println(b);
+		}
+		if (b.move("a5-b6")) {
+			System.out.println(b);
+		}
+		if (b.move("c3-d4")) {
+			System.out.println(b);
+		}
+		if (b.move("a5:c3")) {
+			System.out.println(b);
+		}
+		if (b.move("c3:e5")) {
+			System.out.println(b);
+		}
+
 	}
 
 }
