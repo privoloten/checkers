@@ -40,5 +40,10 @@ public abstract class Piece {
 		this.col = col;
 		board.setPiece(this);
 	}
+	
+	
+	protected abstract boolean canCapture(Board board);
+	
+	protected abstract boolean canMove(Board board);
 
 }

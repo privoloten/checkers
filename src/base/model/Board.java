@@ -199,11 +199,17 @@ public class Board {
 		board[rowTo][colTo] = board[rowFrom][colFrom];
 		board[rowFrom][colFrom] = BLACK_SQUARE;
 	}
+	
+	
 
 	public static void main(String[] args) {
 
 		Board b = new Board();
 
+		System.out.println(b);
+		
+		b.move("a3-b3");
+		
 		System.out.println(b);
 
 	}

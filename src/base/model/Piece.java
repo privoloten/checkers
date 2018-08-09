@@ -47,7 +47,7 @@ public abstract class Piece implements Checker {
 
 	@Override
 	public boolean move(String move, Board board) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 	

@@ -15,7 +15,7 @@ public class WhitePiece extends Piece {
 	protected boolean move(int row, int col, Board board) {
 
 		if (!super.move(row, col, board)) {
-			System.out.println(1);
+			System.out.println("WhitePiece.move(): super.move(..)");
 			return false;
 		}
 
@@ -27,7 +27,7 @@ public class WhitePiece extends Piece {
 			int colBlack = (col + this.col) / 2;
 
 			if (!board.isBlackPiece(rowBlack, colBlack)) {		
-				System.out.println("WhitePiece.move(): white piece");		
+				System.out.println("WhitePiece.move(): white piece or nothing");		
 				return false;				
 			} 
 
@@ -46,33 +46,39 @@ public class WhitePiece extends Piece {
 		return true;
 	}
 
-	public static void main(String...args) {
 
-		Board b = new Board();
-		b.initBoard();
-		System.out.println(b);
-		if (b.move("a3-b4")) {
-			System.out.println(b);			
+	@Override
+	protected boolean canCapture(Board board) {
+		if (board.isBlackPiece(row + 1, col + 1) && board.isSquareEmpty(row + 2, col + 2)) {
+			System.out.println("WhitePiece.canCapture(): 1 " + row + " : " + col);
+			return true;
 		}
-		if (b.move("b6-a5")) {
-			System.out.println(b);		
+		if (board.isBlackPiece(row + 1, col - 1) && board.isSquareEmpty(row + 2, col - 2)) {
+			System.out.println("WhitePiece.canCapture(): 2 " + row + " : " + col);
+			return true;
 		}
-		if (b.move("b4-a3")) {
-			System.out.println(b);
+		if (board.isBlackPiece(row - 1, col + 1) && board.isSquareEmpty(row - 2, col + 2)) {
+			System.out.println("WhitePiece.canCapture(): 3 " + row + " : " + col);
+			return true;
 		}
-		if (b.move("a5-b6")) {
-			System.out.println(b);
+		if (board.isBlackPiece(row - 1, col - 1) && board.isSquareEmpty(row - 2, col - 2)) {
+			System.out.println("WhitePiece.canCapture(): 4 " + row + " : " + col);
+			return true;
 		}
-		if (b.move("c3-d4")) {
-			System.out.println(b);
-		}
-		if (b.move("a5:c3")) {
-			System.out.println(b);
-		}
-		if (b.move("c3:e5")) {
-			System.out.println(b);
-		}
-
+		return false;
 	}
+
+	@Override
+	protected boolean canMove(Board board) {
+		if (board.isSquareEmpty(row - 1, col + 1)) {
+			return true;
+		}
+		if (board.isSquareEmpty(row - 1, col - 1)) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 
 }

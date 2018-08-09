@@ -26,7 +26,7 @@ public class BlackPiece extends Piece {
 			int colWhite = (col + this.col) / 2;
 
 			if (!board.isWhitePiece(rowWhite, colWhite)) {		
-				System.out.println("BlackPiece.move(): black piece");		
+				System.out.println("BlackPiece.move(): black piece or nothing");		
 				return false;				
 			} 
 
@@ -43,6 +43,34 @@ public class BlackPiece extends Piece {
 		}
 
 		return true;
+	}
+
+	@Override
+	protected boolean canCapture(Board board) {
+		if (board.isWhitePiece(row + 1, col + 1) && board.isSquareEmpty(row + 2, col + 2)) {
+			return true;
+		}
+		if (board.isWhitePiece(row + 1, col - 1) && board.isSquareEmpty(row + 2, col - 2)) {
+			return true;
+		}
+		if (board.isWhitePiece(row - 1, col + 1) && board.isSquareEmpty(row - 2, col + 2)) {
+			return true;
+		}
+		if (board.isWhitePiece(row - 1, col - 1) && board.isSquareEmpty(row - 2, col - 2)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected boolean canMove(Board board) {
+		if (board.isSquareEmpty(row + 1, col + 1)) {
+			return true;
+		}
+		if (board.isSquareEmpty(row + 1, col - 1)) {
+			return true;
+		}
+		return false;
 	}
 
 }
